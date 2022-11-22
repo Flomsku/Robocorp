@@ -13,8 +13,8 @@ Insert the sales data for the week and export it as a PDF
     Log In
     Download Excel file
     Fill and submit the form using data from excel file
-    Collect the results
-    Create PDF from the table
+    #Collect the results
+    #Create PDF from the table
     [Teardown]    Log out and close the Browser
 
 
