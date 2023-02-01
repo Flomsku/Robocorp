@@ -7,29 +7,37 @@ Library             RPA.Excel.Files
 Library             RPA.PDF
 
 
+*** Variables ***
+${Login_URL}        https://robotsparebinindustries.com/
+${Username}         maria
+${Password}         thoushallnotpass
+${Salesdata_URL}    https://robotsparebinindustries.com/SalesData.xlsx
+${Workbook_Name}    SalesData.xlsx
+
+
 *** Tasks ***
 Insert the sales data for the week and export it as a PDF
     Open the intranet website
     Log In
     Download Excel file
     Fill and submit the form using data from excel file
-    #Collect the results
-    #Create PDF from the table
+    Collect the results
+    Create PDF from the table
     [Teardown]    Log out and close the Browser
 
 
 *** Keywords ***
 Open the intranet website
-    Open Available Browser    https://robotsparebinindustries.com/
+    Open Available Browser    ${Login_URL}
 
 Log in
-    Input Text    username    maria
-    Input Password    password    thoushallnotpass
+    Input Text    username    ${Username}
+    Input Password    password    ${Password}
     Submit Form
     Wait Until Page Contains Element    id:sales-form
 
 Download Excel file
-    Download    https://robotsparebinindustries.com/SalesData.xlsx    overwrite=true
+    Download    ${Salesdata_URL}    overwrite=true
 
 Fill and submit the form for one person
     [Arguments]    ${sales_rep}
@@ -40,7 +48,7 @@ Fill and submit the form for one person
     Click Button    Submit
 
 Fill and submit the form using data from excel file
-    Open Workbook    SalesData.xlsx
+    Open Workbook    ${Workbook_Name}
     ${sales_reps}=    Read Worksheet As Table    header=True
     Close Workbook
     FOR    ${sales_rep}    IN    @{sales_reps}
